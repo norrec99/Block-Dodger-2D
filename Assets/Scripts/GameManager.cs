@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnRate;
 
     private bool isGameStarted = false;
+    private int score = 0;
 
     // Ensure the instance is not destroyed when loading a new scene
     private void Awake()
@@ -40,6 +42,9 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(0);
+        CancelInvoke();
+        isGameStarted = false;
+        score = 0;
     }
 
     private void StartSpawning()
@@ -53,5 +58,16 @@ public class GameManager : MonoBehaviour
         spawnPos.x = Random.Range(-maxX,maxX);
 
         Instantiate(blockPrefab, spawnPos, Quaternion.identity);
+
+        score++;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    } 
+    public bool IsGameStarted()
+    {
+        return isGameStarted;
     }
 }
